@@ -12,5 +12,9 @@ app.get('/', (req, res) => {
   res.send('Hello World!!!');
 });
 
+process.on('SIGTERM', () => {
+    console.log('SIGTERM received, shutting down...');
+  });
+
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
