@@ -21,12 +21,12 @@ services: #containerlarin tanimlandigi yer
     restart: always
     ports:
       - "80:80"
-    enviroment:
+    environment:
       WORDPRESS_DB_HOST: veritabani:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
-      
+
 
 volumes:
   verilerim: #yukaridaki containera baglanacak volume olusmasini saglar
