@@ -1,0 +1,36 @@
+version: "3.7" #bu docker compose 3.7 versionunu kullanacak.
+
+services: #containerlarin tanimlandigi yer
+  veritabani:
+    image: mysql:5.7 #bu veritabani ismindaki container hangi imagedan olusturulacak
+    restart: always #kapanirsa her seferinde yeniden baslat
+    volumes: #bu containerlara takilacak volumel er
+      - verilerim:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    networks:
+      - wpnet #wordpress networkune bu containeri bagladik
+  
+  wordpress:
+    image: wordpress:latest
+    depends_on: #internet sitesi kalkmadan once veritabani kalksin diye. wordpress service'i veritabanina bagli. veritabani olusmadiysa bu service de olusmayacak
+      - veritabani
+    restart: always
+    ports:
+      - "80:80"
+    enviroment:
+      WORDPRESS_DB_HOST: veritabani:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      
+
+volumes:
+  verilerim: #yukaridaki containera baglanacak volume olusmasini saglar
+
+networks:
+  wpnet: #containera baglanacak networkun olusmasini saglar
+    driver: bridge
